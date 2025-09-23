@@ -21,7 +21,11 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('employees/search', [EmployeeController::class, 'search']);
+    Route::get('employees/export/csv', [EmployeeController::class, 'exportCsv']);
+    Route::post('employees/import/csv', [EmployeeController::class, 'importCsv']);
     Route::apiResource('positions', PositionController::class);
     Route::apiResource('employees', EmployeeController::class);
-
+    Route::get('employees/{employee}/hierarchy/names', [EmployeeController::class, 'hierarchyNames']);
+    Route::get('employees/{employee}/hierarchy/names-salaries', [EmployeeController::class, 'hierarchyNamesSalaries']);
 });

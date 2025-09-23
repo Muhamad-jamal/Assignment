@@ -14,6 +14,7 @@ class EmployeeResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'position_id' => $this->position_id,
+            'manager_id' => $this->manager_id,
             'salary' => $this->salary,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
