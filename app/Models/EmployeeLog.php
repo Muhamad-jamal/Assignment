@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class EmployeeLog extends Model
 {
     use HasFactory;
-git checkout -b employee-salary-logs
 
     protected $table = 'employee_logs';
 
