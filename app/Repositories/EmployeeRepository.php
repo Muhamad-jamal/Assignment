@@ -31,4 +31,21 @@ class EmployeeRepository
     {
         return $employee->delete();
     }
+
+public function search(array $filters = [])
+{
+    $employees = Employee::query()
+        ->when($filters['name'] ?? null, fn($q, $name) =>
+            $q->where('name', 'like', "%{$name}%")
+        )
+        ->when($filters['salary'] ?? null, fn($q, $salary) =>
+            $q->where('salary', 'like', "%{$salary}%")
+        )
+        ->get();
+
+    return $employees;
+}
+
+
+
 }

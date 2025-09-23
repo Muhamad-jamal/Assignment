@@ -4,15 +4,20 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Employee;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Actions\Employee\StoreEmployeeAction;
-use App\Actions\Employee\UpdateEmployeeAction;
-use App\Actions\Employee\DeleteEmployeeAction;
-use App\Actions\Employee\ListEmployeesAction;
 use App\Actions\Employee\ShowEmployeeAction;
-use App\Http\Requests\Api\V1\StoreEmployeeRequest;
-use App\Http\Requests\Api\V1\UpdateEmployeeRequest;
+use App\Actions\Employee\ListEmployeesAction;
+use App\Actions\Employee\StoreEmployeeAction;
+use App\Actions\Employee\DeleteEmployeeAction;
+use App\Actions\Employee\UpdateEmployeeAction;
+use App\Actions\Employee\SearchEmployeesAction;
 use App\Http\Resources\Api\V1\EmployeeResource;
+use App\Actions\Employee\ExportEmployeesCsvAction;
+use App\Actions\Employee\ImportEmployeesCsvAction;
+use App\Http\Requests\Api\V1\StoreEmployeeRequest;
+use App\Actions\Employee\GetManagerHierarchyAction;
+use App\Http\Requests\Api\V1\UpdateEmployeeRequest;
 
 class EmployeeController extends Controller
 {
@@ -39,7 +44,7 @@ class EmployeeController extends Controller
         return $this->storeResponse(new EmployeeResource($employee), 'Employee created successfully');
     }
 
-    public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateEmployeeAction $action)
+    public function update(UpdateEmployeeRequest  $request, Employee $employee, UpdateEmployeeAction $action)
     {
         $action->handle($employee, $request->validated());
         return $this->updateResponse();
@@ -49,5 +54,41 @@ class EmployeeController extends Controller
     {
         $action->handle($employee);
         return $this->destroyResponse('Employee deleted successfully');
+    }
+
+    public function hierarchyNames(Employee $employee, GetManagerHierarchyAction $action)
+    {
+        $hierarchy = $action->handle($employee, false);
+        return $this->showResponse('Managerial hierarchy (names)', $hierarchy);
+    }
+
+    public function hierarchyNamesSalaries(Employee $employee, GetManagerHierarchyAction $action)
+    {
+        $hierarchy = $action->handle($employee, true);
+        return $this->showResponse('Managerial hierarchy (names & salaries)', $hierarchy);
+    }
+
+public function search(Request $request, SearchEmployeesAction $action)
+    {
+        $filters = $request->only(['name', 'salary']);
+        $employees = $action->handle($filters);
+
+        return $this->listResponse('Employees fetched successfully', EmployeeResource::collection($employees));
+    }
+
+     public function exportCsv(ExportEmployeesCsvAction $action)
+    {
+        return $action->handle();
+    }
+
+    public function importCsv(Request $request, ImportEmployeesCsvAction $action)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt'
+        ]);
+
+        $count = $action->handle($request->file('file'));
+
+        return $this->storeResponse(null, "{$count} employees imported successfully");
     }
 }
