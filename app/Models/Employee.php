@@ -21,6 +21,9 @@ class Employee extends Model
     protected $casts = [
         'salary' => 'decimal:2'
     ];
+
+  
+
     public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class);
