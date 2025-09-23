@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //  public function employeeLogs()
+    // {
+    //     return $this->hasMany(EmployeeLog::class);
+    // }
+
+    // public function salaryHistories()
+    // {
+    //     return $this->hasMany(SalaryHistory::class, 'changed_by');
+    // }
 }
