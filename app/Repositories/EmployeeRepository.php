@@ -8,7 +8,7 @@ class EmployeeRepository
 {
     public function all()
     {
-        return Employee::all();
+        return Employee::get();
     }
 
     public function find(int $id): ?Employee
