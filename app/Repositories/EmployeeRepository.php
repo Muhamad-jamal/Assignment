@@ -46,6 +46,13 @@ public function search(array $filters = [])
     return $employees;
 }
 
+public function withoutRecentSalaryChange(int $months)
+{
+    $cutoffDate = now()->subMonths($months);
 
+    return Employee::whereDoesntHave('salaryHistories', function ($query) use ($cutoffDate) {
+        $query->where('changed_at', '>=', $cutoffDate);
+    })->get();
+}
 
 }

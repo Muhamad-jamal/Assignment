@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
     protected $fillable = [
         'name',
         'email',
@@ -22,7 +23,7 @@ class Employee extends Model
         'salary' => 'decimal:2'
     ];
 
-  
+
 
     public function position(): BelongsTo
     {
@@ -39,13 +40,13 @@ class Employee extends Model
         return $this->hasMany(Employee::class, 'manager_id');
     }
 
-    public function salaryHistories(): HasMany
+    public function salaryHistories()
     {
         return $this->hasMany(SalaryHistory::class);
     }
 
     public function logs(): HasMany
     {
-        return $this->hasMany(EmployeeLog::class);
+        return $this->hasMany(Log::class);
     }
 }
