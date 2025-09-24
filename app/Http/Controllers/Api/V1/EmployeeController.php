@@ -84,12 +84,11 @@ class EmployeeController extends Controller
 
         $employees = $action->handle($request->input('months'));
 
-        return $this->storeResponse(
-            EmployeeResource::collection($employees),
-            'Employees without recent salary change retrieved successfully'
+        return $this->listResponse(
+            'Employees without recent salary change retrieved successfully',
+            EmployeeResource::collection($employees)
         );
     }
-
 
     public function exportCsv(ExportEmployeesCsvAction $action)
     {
