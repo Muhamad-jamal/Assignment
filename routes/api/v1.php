@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('employees/search', [EmployeeController::class, 'search']);
     Route::get('employees/export/csv', [EmployeeController::class, 'exportCsv']);
     Route::post('employees/import/csv', [EmployeeController::class, 'importCsv']);
+    Route::get('employees/without-recent-salary-change', [EmployeeController::class, 'withoutRecentSalaryChange']);
     Route::apiResource('positions', PositionController::class);
     Route::apiResource('employees', EmployeeController::class);
     Route::get('employees/{employee}/hierarchy/names', [EmployeeController::class, 'hierarchyNames']);

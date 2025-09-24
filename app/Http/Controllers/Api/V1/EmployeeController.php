@@ -18,6 +18,7 @@ use App\Actions\Employee\ImportEmployeesCsvAction;
 use App\Http\Requests\Api\V1\StoreEmployeeRequest;
 use App\Actions\Employee\GetManagerHierarchyAction;
 use App\Http\Requests\Api\V1\UpdateEmployeeRequest;
+use App\Actions\Employee\EmployeesWithoutRecentSalaryChangeAction;
 
 class EmployeeController extends Controller
 {
@@ -68,15 +69,29 @@ class EmployeeController extends Controller
         return $this->showResponse('Managerial hierarchy (names & salaries)', $hierarchy);
     }
 
-public function search(Request $request, SearchEmployeesAction $action)
+    public function search(Request $request, SearchEmployeesAction $action)
     {
         $filters = $request->only(['name', 'salary']);
         $employees = $action->handle($filters);
 
         return $this->listResponse('Employees fetched successfully', EmployeeResource::collection($employees));
     }
+    public function withoutRecentSalaryChange(Request $request, EmployeesWithoutRecentSalaryChangeAction $action)
+    {
+        $request->validate([
+            'months' => 'required|integer|min:1',
+        ]);
 
-     public function exportCsv(ExportEmployeesCsvAction $action)
+        $employees = $action->handle($request->input('months'));
+
+        return $this->storeResponse(
+            EmployeeResource::collection($employees),
+            'Employees without recent salary change retrieved successfully'
+        );
+    }
+
+
+    public function exportCsv(ExportEmployeesCsvAction $action)
     {
         return $action->handle();
     }

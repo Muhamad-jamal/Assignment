@@ -38,31 +38,37 @@ class EmployeeService
 
     public function getManagerHierarchy(Employee $employee, bool $includeSalary = false): array
     {
+        $managers = $this->getManagersUpToFounder($employee);
 
-
-        $hierarchy = [];
+        return array_map(
+            fn($manager) =>
+            $includeSalary ? [$manager->name => $manager->salary] : $manager->name,
+            $managers
+        );
+    }
+    public function getManagersUpToFounder(Employee $employee): array
+    {
+        $managers = [];
         $current = $employee->manager;
 
         while ($current) {
-            if ($includeSalary) {
-                $hierarchy[$current->name] = $current->salary;
-            } else {
-                $hierarchy[] = $current->name;
-            }
-
+            $managers[] = $current;
             if ($current->is_founder) break;
             $current = $current->manager;
         }
 
-        return $hierarchy;
+        return $managers;
+    }
+    public function search(array $filters)
+    {
+        return $this->repository->search($filters);
     }
 
-    public function search(array $filters)
+    public function getEmployeesWithoutRecentSalaryChange(int $months)
 {
-    return $this->repository->search($filters);
+    return $this->repository->withoutRecentSalaryChange($months);
 }
-
-public function exportCsv(): StreamedResponse
+    public function exportCsv(): StreamedResponse
     {
         $employees = $this->repository->all();
 
@@ -92,51 +98,49 @@ public function exportCsv(): StreamedResponse
         return response()->stream($callback, 200, $headers);
     }
 
-  public function importCsv(UploadedFile $file): int
-{
-    $handle = fopen($file->getRealPath(), 'r');
-    $header = fgetcsv($handle);
+    public function importCsv(UploadedFile $file): int
+    {
+        $handle = fopen($file->getRealPath(), 'r');
+        $header = fgetcsv($handle);
 
-    $count = 0;
-    while (($row = fgetcsv($handle)) !== false) {
-        [$id, $name, $email, $position, $salary, $manager, $is_founder] = $row;
+        $count = 0;
+        while (($row = fgetcsv($handle)) !== false) {
+            [$id, $name, $email, $position, $salary, $manager, $is_founder] = $row;
 
-        // 🔹 Lookup position by title or ID
-        $positionId = is_numeric($position)
-            ? $position
-            : \App\Models\Position::where('title', $position)->value('id');
+            // 🔹 Lookup position by title or ID
+            $positionId = is_numeric($position)
+                ? $position
+                : \App\Models\Position::where('title', $position)->value('id');
 
-        // 🔹 Lookup manager by ID or email
-        $managerId = null;
-        if ($manager) {
-            $managerId = is_numeric($manager)
-                ? $manager
-                : \App\Models\Employee::where('email', $manager)
+            // 🔹 Lookup manager by ID or email
+            $managerId = null;
+            if ($manager) {
+                $managerId = is_numeric($manager)
+                    ? $manager
+                    : \App\Models\Employee::where('email', $manager)
                     ->orWhere('name', $manager)
                     ->value('id');
+            }
+
+            // Skip row if position not found
+            if (!$positionId) {
+                continue;
+            }
+
+            $this->repository->create([
+                'name'       => $name,
+                'email'      => $email,
+                'position_id' => $positionId,
+                'salary'     => $salary,
+                'manager_id' => $managerId,
+                'is_founder' => strtolower($is_founder) === 'yes',
+            ]);
+
+            $count++;
         }
 
-        // Skip row if position not found
-        if (!$positionId) {
-            continue;
-        }
+        fclose($handle);
 
-        $this->repository->create([
-            'name'       => $name,
-            'email'      => $email,
-            'position_id'=> $positionId,
-            'salary'     => $salary,
-            'manager_id' => $managerId,
-            'is_founder' => strtolower($is_founder) === 'yes',
-        ]);
-
-        $count++;
+        return $count;
     }
-
-    fclose($handle);
-
-    return $count;
-}
-
-
 }
