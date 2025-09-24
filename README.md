@@ -48,6 +48,19 @@ This project is a Laravel-based backend API for HR management. It implements emp
      DB_USERNAME=root
      DB_PASSWORD=your_password
      ```
+   - **Email Setup:**  
+     Configure the following mail settings in your `.env` file to enable email notifications (salary change, manager notification, etc.):
+     ```
+     MAIL_MAILER=smtp
+     MAIL_HOST=smtp.mailtrap.io
+     MAIL_PORT=2525
+     MAIL_USERNAME=your_mailtrap_username
+     MAIL_PASSWORD=your_mailtrap_password
+     MAIL_ENCRYPTION=null
+     MAIL_FROM_ADDRESS=hr@example.com
+     MAIL_FROM_NAME="HR Management"
+     ```
+     *(You may use [Mailtrap](https://mailtrap.io/) or any SMTP provider for testing.)*
 
 5. **Generate Application Key**
    ```bash
@@ -59,10 +72,17 @@ This project is a Laravel-based backend API for HR management. It implements emp
    php artisan migrate:fresh --seed
    ```
 
-7. **Start the Development Server**
+6. **Start the Development Server**
    ```bash
    php artisan serve
    ```
+
+7. **Run the Queue Worker**
+   To process email and broadcast notifications, start the queue worker in a separate terminal:
+   ```bash
+   php artisan queue:work
+   ```
+   *(This is required for notifications to be sent and broadcasted.)*
 
 ---
 ## API Endpoint Explanations
