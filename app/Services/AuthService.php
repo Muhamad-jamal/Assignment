@@ -31,10 +31,7 @@ class AuthService
     public function login(array $credentials): array|bool
     {
         if (!$this->authRepository->attemptLogin($credentials)) {
-
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            throw new \Illuminate\Auth\AuthenticationException('Unauthenticated');
         }
 
         $user = $this->authRepository->findByEmail($credentials['email']);
