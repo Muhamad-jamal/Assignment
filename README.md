@@ -65,19 +65,51 @@ This project is a Laravel-based backend API for HR management. It implements emp
    ```
 
 ---
+## API Endpoint Explanations
 
-## Assignment Feature Mapping
+### Authentication
 
-- **Authentication:** Laravel Sanctum, `/api/v1/auth/*` endpoints.
-- **Employee Management:** CRUD, hierarchy, salary change notifications, search, import/export, recently changed salaries.
-- **Positions:** CRUD for positions.
-- **Logging:** All operations in DB and `storage/logs/employee.log`.
-- **Artisan Commands:** For logs, export, fake data insertion, JSON export (see `app/Console/Commands/`).
-- **Rate Limiting:** 10 req/min (via middleware).
-- **API Versioning:** All endpoints under `/api/v1/`.
-- **Testing:** TDD for all endpoints, run with `php artisan test`.
-- **Data & Collections:** Use `assignment.sql` and `Assignment.postman_collection.json`.
-- **Other Notes:** Uses Eloquent ORM, avoids N+1 queries, seeded with fake data, default admin `admin@example.com`/`password`.
+- `POST /api/v1/auth/register` – Register new user
+- `POST /api/v1/auth/login` – Login, receive token
+- `POST /api/v1/auth/logout` – Logout, invalidate token
+
+### Employees
+
+- `GET /api/v1/employees` – List all employees
+- `GET /api/v1/employees/search?name=alice&salary=5000` – Search employees
+- `GET /api/v1/employees/without-recent-salary-change?months=12` – Employees without salary change
+- `POST /api/v1/employees` – Create new employee
+- `GET /api/v1/employees/{id}` – Show employee details
+- `PATCH /api/v1/employees/{id}` – Update employee info/salary
+- `DELETE /api/v1/employees/{id}` – Delete employee
+- `GET /api/v1/employees/{id}/hierarchy/names` – Get hierarchy names
+- `GET /api/v1/employees/{id}/hierarchy/names-salaries` – Get hierarchy names and salaries
+- `GET /api/v1/employees/export/csv` – Export employees as CSV
+- `POST /api/v1/employees/import/csv` – Import employees from CSV
+
+### Positions
+
+- `GET /api/v1/positions` – List all positions
+- `GET /api/v1/positions/{id}` – Show position details
+- `POST /api/v1/positions` – Create position
+- `PATCH /api/v1/positions/{id}` – Update position
+- `DELETE /api/v1/positions/{id}` – Delete position
+
+### Utility & Artisan Commands
+
+- `php artisan logs:prune` – Delete old logs (>1 month)
+- `php artisan logs:clear-files` – Remove log files
+- `php artisan employees:insert {count}` – Add fake employees
+- `php artisan db:export` – Export DB as SQL
+- `php artisan employees:export-json` – Export employees to JSON
+
+### Other Features
+
+- **Notifications**: Email and broadcast on salary change, manager notification on creation.
+- **Logging**: All actions logged in DB and file.
+- **Rate Limiting**: 10 requests/min per user.
+- **Testing**: TDD for all endpoints (`php artisan test`).
+- **Eloquent ORM**: No raw SQL, eager loading for performance.
 
 ---
 
