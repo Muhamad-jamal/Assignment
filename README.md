@@ -49,18 +49,12 @@ This project is a Laravel-based backend API for HR management. It implements emp
      DB_PASSWORD=your_password
      ```
 
-4. **Import Database**
-   - Import the provided SQL dump using phpMyAdmin or MySQL CLI:
-     ```bash
-     mysql -u root -p assignment < assignment.sql
-     ```
-
 5. **Generate Application Key**
    ```bash
    php artisan key:generate
    ```
 
-6. **Run Migrations and Seeders** (if you want to reset and seed with fresh fake data)
+6. **Run Migrations and Seeders**
    ```bash
    php artisan migrate:fresh --seed
    ```
