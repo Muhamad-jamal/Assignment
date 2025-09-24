@@ -1,122 +1,91 @@
 # HR Management API (Laravel)
 
-## Project Overview
+## Overview
 
-This project is a Laravel-based HR Management API. It supports:
+This project is a Laravel-based backend API for HR management. It implements employee and position management, authentication, notifications, hierarchical queries, logging, data import/export, rate limiting, and more, strictly following the assignment requirements.
 
-- **Employee management (CRUD)**
-- **Position management**
-- **Salary tracking & notifications**
-- **Employee hierarchy**
-- **Export/import via CSV**
-- **Rate-limited API**
-- **Authentication with Sanctum**
+---
 
-## Requirements
+## Installation Requirements
 
-- **PHP 8.2+**
-- **Composer**
-- **MySQL / MariaDB / PostgreSQL**
-- **Node.js & NPM** (for front-end or broadcasting channels, if needed)
+- **PHP:** ^8.2
+- **Composer:** Latest version recommended
+- **Database:** MariaDB/MySQL (recommended), other Laravel-supported DBs possible
+- **Node.js & npm:** For broadcasting/queues (if needed)
+- **Required Composer Packages:**
+  - `laravel/framework` ^12.0
+  - `laravel/sanctum` ^4.0
+  - `laravel/tinker`
+  - `ifsnop/mysqldump-php`
+  - See `composer.json` for full list
 
-## Installation
+---
 
-1. **Clone the repository**
-    ```bash
-    git clone https://github.com/Muhamad-jamal/Assignment.git
-    cd Assignment
-    ```
+## Installation & Configuration
 
-2. **Install dependencies**
-    ```bash
-    composer install
-    ```
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Muhamad-jamal/Assignment.git
+   cd Assignment
+   ```
 
-3. **Copy environment file**
-    ```bash
-    cp .env.example .env
-    ```
+2. **Install Dependencies**
+   ```bash
+   composer install
+   ```
 
-4. **Configure environment**
+3. **Environment Setup**
+   - Copy the example environment file and configure your DB credentials:
+     ```bash
+     cp .env.example .env
+     ```
+   - Edit `.env` for your database settings:
+     ```
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=assignment
+     DB_USERNAME=root
+     DB_PASSWORD=your_password
+     ```
 
-    Edit `.env` file with your database credentials:
-    ```
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=hr_management
-    DB_USERNAME=root
-    DB_PASSWORD=secret
-    ```
+4. **Import Database**
+   - Import the provided SQL dump using phpMyAdmin or MySQL CLI:
+     ```bash
+     mysql -u root -p assignment < assignment.sql
+     ```
 
-5. **Generate app key**
-    ```bash
-    php artisan key:generate
-    ```
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-6. **Run migrations & seed database**
-    ```bash
-    php artisan migrate --seed
-    ```
-    This will:
-    - Create tables (`users`, `employees`, `positions`, `salary_histories`, `logs`)
-    - Populate positions, employees, and users with fake data
+6. **Run Migrations and Seeders** (if you want to reset and seed with fresh fake data)
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-7. **Run the application**
-    ```bash
-    php artisan serve
-    ```
-    Default URL: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+7. **Start the Development Server**
+   ```bash
+   php artisan serve
+   ```
 
-## Authentication
+---
 
-- Login via `/api/auth/login` (`POST`) with user credentials
-- Use Sanctum token for authenticated requests
+## Assignment Feature Mapping
 
-**Example Admin User (seeded by default):**
-```
-Email: admin@example.com
-Password: password
-```
+- **Authentication:** Laravel Sanctum, `/api/v1/auth/*` endpoints.
+- **Employee Management:** CRUD, hierarchy, salary change notifications, search, import/export, recently changed salaries.
+- **Positions:** CRUD for positions.
+- **Logging:** All operations in DB and `storage/logs/employee.log`.
+- **Artisan Commands:** For logs, export, fake data insertion, JSON export (see `app/Console/Commands/`).
+- **Rate Limiting:** 10 req/min (via middleware).
+- **API Versioning:** All endpoints under `/api/v1/`.
+- **Testing:** TDD for all endpoints, run with `php artisan test`.
+- **Data & Collections:** Use `assignment.sql` and `Assignment.postman_collection.json`.
+- **Other Notes:** Uses Eloquent ORM, avoids N+1 queries, seeded with fake data, default admin `admin@example.com`/`password`.
 
-## API Rate Limiting
-
-All API endpoints are limited to **10 requests per minute**
-
-## API Endpoints (examples)
-
-- `POST /api/v1/auth/register`
-- `POST /api/v1/auth/login`
-- `GET /api/v1/employees/without-recent-salary-change?months=3`
-- `GET /api/v1/employees/export/csv`
-- `POST /api/v1/employees/import/csv`
-- `GET /api/v1/employees/{id}/hierarchy/names`
-- `GET /api/v1/employees/{id}/hierarchy/names-salaries`
-
-## Optional Commands
-
-Insert fake employees with progress bar:
-```bash
-php artisan employees:insert {count}
-# Example:
-php artisan employees:insert 20
-```
-
-## Broadcasting & Notifications
-
-Salary changes trigger emails to the employee and managers up to the founder.
-
-Laravel queue should be running for email delivery:
-```bash
-php artisan queue:work
-```
-
-## Testing
-
-Run tests:
-```bash
-php artisan test
-```
+---
 
 ## License
 
