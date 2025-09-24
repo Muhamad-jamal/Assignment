@@ -128,7 +128,6 @@ This project is a Laravel-based backend API for HR management. It implements emp
 - **Notifications**: Email and broadcast on salary change, manager notification on creation.
 - **Logging**: All actions logged in DB and file.
 - **Rate Limiting**: 10 requests/min per user.
-- **Testing**: TDD for all endpoints (`php artisan test`).
 - **Eloquent ORM**: No raw SQL, eager loading for performance.
 
 ---
