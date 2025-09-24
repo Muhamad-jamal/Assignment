@@ -19,7 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->group('api', [
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':10,1',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
