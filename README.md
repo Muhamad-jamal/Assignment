@@ -98,6 +98,15 @@ This project is a Laravel-based backend API for HR management. It implements emp
 ---
 ## API Endpoint Explanations
 
+## Postman Collection
+
+A Postman collection is provided in the project root as `Assignment.postman_collection.json`.
+
+**Instructions for Reviewers:**
+- Import `Assignment.postman_collection.json` into Postman.
+- Use the pre-configured requests to test all API endpoints quickly.
+- Update environment variables in Postman as needed (e.g., base URL, authentication token).
+- Refer to the API Endpoint Explanations below for details on each endpoint.
 ### Authentication
 
 - `POST /api/v1/auth/register` – Register new user
