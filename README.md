@@ -1,21 +1,27 @@
-# HR Management API (Laravel)
+# HR Management
 
 ## Overview
-
-## Project Structure Overview
-
-- **Controllers**: Handle HTTP requests and responses for API endpoints.
-- **Actions**: Encapsulate business logic for each operation (CRUD, search, etc.), called by controllers.
-- **Repositories**: Directly interact with Eloquent models for data access and queries.
-- **Services**: (Where used) Provide reusable business logic or orchestration, used by actions or observers.
-- **Observers**: Listen for model events (created, updated, deleted) and trigger logging, notifications, or history tracking.
-- **Notifications**: Send email and broadcast notifications for events like salary changes and new employee creation.
-- **Commands**: Custom Artisan CLI commands for data export, log cleanup, and bulk operations.
-- **Traits**: Shared reusable code for controllers and actions, e.g., `ApiResponse.php` for standardized API responses.
 This project is a Laravel-based backend API for HR management. It implements employee and position management, authentication, notifications, hierarchical queries, logging, data import/export, rate limiting, and more, strictly following the assignment requirements.
 
----
+## Project Structure
 
+The main components of the codebase are organized as follows:
+
+```text
+app/
+├── Http/
+│   └── Controllers/         # Controllers: Handle HTTP requests and responses for API endpoints
+├── Actions/                 # Actions: Business logic for CRUD/search, called by controllers
+├── Repositories/            # Repositories: Data access, Eloquent queries
+├── Services/                # Services: Reusable business logic/orchestration (where used)
+├── Observers/               # Observers: Listen for model events, trigger logging/notifications/history
+├── Notifications/           # Notifications: Email/broadcast for salary changes, new employee
+├── Console/
+│   └── Commands/            # Commands: Custom Artisan CLI commands (export, cleanup, bulk ops)
+├── Traits/                  # Traits: Shared code, e.g., ApiResponse.php for standardized responses
+```
+
+---
 ## Installation Requirements
 
 - **PHP:** ^8.2
@@ -72,13 +78,13 @@ This project is a Laravel-based backend API for HR management. It implements emp
      ```
      *(You may use [Mailtrap](https://mailtrap.io/) or any SMTP provider for testing.)*
 
-5. **Generate Application Key**
+4. **Generate Application Key**
    ```bash
    php artisan key:generate
    ```
 
 
-6. **Run Migrations and Seeders**
+5. **Run Migrations and Seeders**
     ```bash
     php artisan migrate --seed
     ```
@@ -112,7 +118,7 @@ This project is a Laravel-based backend API for HR management. It implements emp
 
 A Postman collection is provided in the project root as `Assignment.postman_collection.json`.
 
-**Instructions:**
+**Instructions for Reviewers:**
 - Import `Assignment.postman_collection.json` into Postman.
 - Update environment variables in Postman as needed (e.g., base URL).
 - Refer to the API Endpoint Explanations below for details on each endpoint.
