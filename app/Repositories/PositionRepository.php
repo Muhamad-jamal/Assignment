@@ -13,7 +13,7 @@ class PositionRepository
 
     public function find(int $id): ?Position
     {
-        return Position::find($id);
+        return Position::findOrfail($id);
     }
 
     public function create(array $data): Position

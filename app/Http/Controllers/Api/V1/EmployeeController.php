@@ -33,9 +33,9 @@ class EmployeeController extends Controller
         );
     }
 
-    public function show(Employee $employee, ShowEmployeeAction $action)
+    public function show($employee, ShowEmployeeAction $action)
     {
-        $employee = $action->handle($employee->id);
+        $employee = $action->handle($employee);
         return $this->showResponse('Employee details', new EmployeeResource($employee));
     }
 

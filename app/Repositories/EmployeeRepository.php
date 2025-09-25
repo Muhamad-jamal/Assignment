@@ -13,7 +13,7 @@ class EmployeeRepository
 
     public function find(int $id): ?Employee
     {
-        return Employee::find($id);
+        return Employee::findOrfail($id);
     }
 
     public function create(array $data): Employee

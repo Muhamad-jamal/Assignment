@@ -27,9 +27,9 @@ class PositionController extends Controller
         );
     }
 
-    public function show(Position $position, ShowPositionAction $action)
+    public function show($position, ShowPositionAction $action)
     {
-        $position = $action->handle($position->id);
+        $position = $action->handle($position);
         return $this->showResponse('Position details', new PositionResource($position));
     }
 
