@@ -104,8 +104,7 @@ A Postman collection is provided in the project root as `Assignment.postman_coll
 
 **Instructions for Reviewers:**
 - Import `Assignment.postman_collection.json` into Postman.
-- Use the pre-configured requests to test all API endpoints quickly.
-- Update environment variables in Postman as needed (e.g., base URL, authentication token).
+- Update environment variables in Postman as needed (e.g., base URL).
 - Refer to the API Endpoint Explanations below for details on each endpoint.
 ### Authentication
 
