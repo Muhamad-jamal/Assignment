@@ -1,12 +1,20 @@
+
 # HR Management
 
 ## Overview
 This project is a Laravel-based backend API for HR management. It implements employee and position management, authentication, notifications, hierarchical queries, logging, data import/export, rate limiting, and more, strictly following the assignment requirements.
 
+## Features
+- Employee and position CRUD
+- Authentication (Sanctum)
+- Notifications (email, broadcast)
+- Hierarchical queries
+- Logging (DB and file)
+- Data import/export (CSV, JSON, SQL)
+- Rate limiting (10 requests/min per user)
+- Custom Artisan commands
+
 ## Project Structure
-
-The main components of the codebase are organized as follows:
-
 ```text
 app/
 ├── Http/
@@ -22,8 +30,7 @@ app/
 ```
 
 ---
-## Installation Requirements
-
+## Requirements
 - **PHP:** ^8.2
 - **Composer:** Latest version recommended
 - **Database:** MariaDB/MySQL (recommended), other Laravel-supported DBs possible
@@ -36,20 +43,16 @@ app/
   - See `composer.json` for full list
 
 ---
-
-## Installation & Configuration
-
+## Installation & Setup
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/Muhamad-jamal/Assignment.git
    cd Assignment
    ```
-
 2. **Install Dependencies**
    ```bash
    composer install
    ```
-
 3. **Environment Setup**
    - Copy the example environment file and configure your DB credentials:
      ```bash
@@ -64,7 +67,7 @@ app/
      DB_USERNAME=root
      DB_PASSWORD=your_password
      ```
-   - **Email Setup:**  
+   - **Email Setup:**
      Configure the following mail settings in your `.env` file to enable email notifications (salary change, manager notification, etc.):
      ```
      MAIL_MAILER=smtp
@@ -77,33 +80,26 @@ app/
      MAIL_FROM_NAME="HR Management"
      ```
      *(You may use [Mailtrap](https://mailtrap.io/) or any SMTP provider for testing.)*
-
 4. **Generate Application Key**
    ```bash
    php artisan key:generate
    ```
-
-
 5. **Run Migrations and Seeders**
-    ```bash
-    php artisan migrate --seed
-    ```
-
-    This will automatically:
-    - Create an admin user:
-       - **Email:** admin@example.com
-       - **Password:** password
-    - Use factories to create:
-       - 5 positions
-       - 5 employees
-
-    You can customize the seed data in `database/seeders` and factories in `database/factories`.
-
+   ```bash
+   php artisan migrate --seed
+   ```
+   This will automatically:
+   - Create an admin user:
+      - **Email:** admin@example.com
+      - **Password:** password
+   - Use factories to create:
+      - 5 positions
+      - 5 employees
+   You can customize the seed data in `database/seeders` and factories in `database/factories`.
 6. **Start the Development Server**
    ```bash
    php artisan serve
    ```
-
 7. **Run the Queue Worker**
    To process email and broadcast notifications, start the queue worker in a separate terminal:
    ```bash
@@ -112,24 +108,13 @@ app/
    *(This is required for notifications to be sent and broadcasted.)*
 
 ---
-## API Endpoint Explanations
-
-## Postman Collection
-
-A Postman collection is provided in the project root as `Assignment.postman_collection.json`.
-
-**Instructions for Reviewers:**
-- Import `Assignment.postman_collection.json` into Postman.
-- Update environment variables in Postman as needed (e.g., base URL).
-- Refer to the API Endpoint Explanations below for details on each endpoint.
+## API Reference
 ### Authentication
-
 - `POST /api/v1/auth/register` – Register new user
 - `POST /api/v1/auth/login` – Login, receive token
 - `POST /api/v1/auth/logout` – Logout, invalidate token
 
 ### Employees
-
 - `GET /api/v1/employees` – List all employees
 - `GET /api/v1/employees/search?name=alice&salary=5000` – Search employees
 - `GET /api/v1/employees/without-recent-salary-change?months=12` – Employees without salary change
@@ -143,7 +128,6 @@ A Postman collection is provided in the project root as `Assignment.postman_coll
 - `POST /api/v1/employees/import/csv` – Import employees from CSV
 
 ### Positions
-
 - `GET /api/v1/positions` – List all positions
 - `GET /api/v1/positions/{id}` – Show position details
 - `POST /api/v1/positions` – Create position
@@ -151,22 +135,21 @@ A Postman collection is provided in the project root as `Assignment.postman_coll
 - `DELETE /api/v1/positions/{id}` – Delete position
 
 ### Utility & Artisan Commands
-
 - `php artisan employee-logs:cleanup` – Delete employee logs older than one month from the logs table
 - `php artisan logs:remove-all` – Remove all log files from storage/logs directory
 - `php artisan employees:insert {count}` – Insert a given number of employees with a progress bar
 - `php artisan db:export` – Export the entire database to a SQL file in storage/backups
 - `php artisan employees:export-json` – Export all employee data to a JSON file in storage/backups
 
-### Other Features
+---
+## Postman Collection
+A Postman collection is provided in the project root as `Assignment.postman_collection.json`.
 
-- **Notifications**: Email and broadcast on salary change, manager notification on creation.
-- **Logging**: All actions logged in DB and file.
-- **Rate Limiting**: 10 requests/min per user.
-- **Eloquent ORM**: No raw SQL, eager loading for performance.
+**Instructions for Reviewers:**
+- Import `Assignment.postman_collection.json` into Postman.
+- Update environment variables in Postman as needed (e.g., base URL).
+- Refer to the API Reference above for details on each endpoint.
 
 ---
-
 ## License
-
 MIT
