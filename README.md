@@ -70,7 +70,7 @@ This project is a Laravel-based backend API for HR management. It implements emp
 
 6. **Run Migrations and Seeders**
     ```bash
-    php artisan migrate:fresh --seed
+    php artisan migrate --seed
     ```
 
     This will automatically:
