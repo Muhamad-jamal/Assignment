@@ -67,10 +67,21 @@ This project is a Laravel-based backend API for HR management. It implements emp
    php artisan key:generate
    ```
 
+
 6. **Run Migrations and Seeders**
-   ```bash
-   php artisan migrate:fresh --seed
-   ```
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+
+    This will automatically:
+    - Create an admin user:
+       - **Email:** admin@example.com
+       - **Password:** password
+    - Use factories to create:
+       - 5 positions
+       - 5 employees
+
+    You can customize the seed data in `database/seeders` and factories in `database/factories`.
 
 6. **Start the Development Server**
    ```bash
