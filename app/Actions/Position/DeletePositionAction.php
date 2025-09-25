@@ -2,15 +2,15 @@
 
 namespace App\Actions\Position;
 
-use App\Services\PositionService;
+use App\Repositories\PositionRepository;
 use App\Models\Position;
 
 class DeletePositionAction
 {
-    public function __construct(private PositionService $service) {}
+    public function __construct(private PositionRepository $repository) {}
 
     public function handle(Position $position): bool
     {
-        return $this->service->destroy($position);
+        return $this->repository->delete($position);
     }
 }

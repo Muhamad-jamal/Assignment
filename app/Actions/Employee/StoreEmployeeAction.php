@@ -2,14 +2,14 @@
 
 namespace App\Actions\Employee;
 
-use App\Services\EmployeeService;
+use App\Repositories\EmployeeRepository;
 
 class StoreEmployeeAction
 {
-    public function __construct(private EmployeeService $service) {}
+    public function __construct(private EmployeeRepository $repository) {}
 
     public function handle(array $data)
     {
-        return $this->service->store($data);
+        return $this->repository->create($data);
     }
 }

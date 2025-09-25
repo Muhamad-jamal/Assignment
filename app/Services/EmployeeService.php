@@ -11,31 +11,6 @@ class EmployeeService
 {
     public function __construct(private EmployeeRepository $repository) {}
 
-    public function list()
-    {
-        return $this->repository->all();
-    }
-
-    public function show(int $id): ?Employee
-    {
-        return $this->repository->find($id);
-    }
-
-    public function store(array $data): Employee
-    {
-        return $this->repository->create($data);
-    }
-
-    public function update(Employee $employee, array $data): Employee
-    {
-        return $this->repository->update($employee, $data);
-    }
-
-    public function destroy(Employee $employee): bool
-    {
-        return $this->repository->delete($employee);
-    }
-
     public function getManagerHierarchy(Employee $employee, bool $includeSalary = false): array
     {
         $managers = $this->getManagersUpToFounder($employee);
@@ -59,15 +34,7 @@ class EmployeeService
 
         return $managers;
     }
-    public function search(array $filters)
-    {
-        return $this->repository->search($filters);
-    }
 
-    public function getEmployeesWithoutRecentSalaryChange(int $months)
-{
-    return $this->repository->withoutRecentSalaryChange($months);
-}
     public function exportCsv(): StreamedResponse
     {
         $employees = $this->repository->all();

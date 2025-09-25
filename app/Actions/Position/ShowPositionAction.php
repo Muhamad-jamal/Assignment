@@ -2,14 +2,14 @@
 
 namespace App\Actions\Position;
 
-use App\Services\PositionService;
+use App\Repositories\PositionRepository;
 
 class ShowPositionAction
 {
-    public function __construct(private PositionService $service) {}
+    public function __construct(private PositionRepository $repository) {}
 
     public function handle(int $id)
     {
-        return $this->service->show($id);
+        return $this->repository->find($id);
     }
 }

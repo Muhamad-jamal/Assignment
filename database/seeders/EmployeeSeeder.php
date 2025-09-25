@@ -15,7 +15,7 @@ class EmployeeSeeder extends Seeder
             'manager_id' => null,
         ]);
 
-        $employees = Employee::factory()->count(5)->make()->each(function ($employee) use ($founder) {
+        $employees = Employee::factory()->count(4)->make()->each(function ($employee) use ($founder) {
             $allManagers = Employee::pluck('id')->push($founder->id);
             $employee->manager_id = $allManagers->random();
             $employee->save();

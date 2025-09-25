@@ -2,14 +2,14 @@
 
 namespace App\Actions\Position;
 
-use App\Services\PositionService;
+use App\Repositories\PositionRepository;
 
 class StorePositionAction
 {
-    public function __construct(private PositionService $service) {}
+    public function __construct(private PositionRepository $repository) {}
 
     public function handle(array $data)
     {
-        return $this->service->store($data);
+        return $this->repository->create($data);
     }
 }

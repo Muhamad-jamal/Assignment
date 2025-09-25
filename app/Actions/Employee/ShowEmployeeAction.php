@@ -2,14 +2,14 @@
 
 namespace App\Actions\Employee;
 
-use App\Services\EmployeeService;
+use App\Repositories\EmployeeRepository;
 
 class ShowEmployeeAction
 {
-    public function __construct(private EmployeeService $service) {}
+    public function __construct(private EmployeeRepository $repository) {}
 
     public function handle(int $id)
     {
-        return $this->service->show($id);
+        return $this->repository->find($id);
     }
 }

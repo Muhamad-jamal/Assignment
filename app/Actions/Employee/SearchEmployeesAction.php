@@ -2,14 +2,14 @@
 
 namespace App\Actions\Employee;
 
-use App\Services\EmployeeService;
+use App\Repositories\EmployeeRepository;
 
 class SearchEmployeesAction
 {
-    public function __construct(private EmployeeService $service) {}
+    public function __construct(private EmployeeRepository $repository) {}
 
     public function handle(array $filters)
     {
-        return $this->service->search($filters);
+        return $this->repository->search($filters);
     }
 }

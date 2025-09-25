@@ -2,14 +2,14 @@
 
 namespace App\Actions\Position;
 
-use App\Services\PositionService;
+use App\Repositories\PositionRepository;
 
 class ListPositionsAction
 {
-    public function __construct(private PositionService $service) {}
+    public function __construct(private PositionRepository $repository) {}
 
     public function handle()
     {
-        return $this->service->list();
+        return $this->repository->all();
     }
 }

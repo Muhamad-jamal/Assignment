@@ -2,15 +2,14 @@
 
 namespace App\Actions\Employee;
 
-use App\Services\EmployeeService;
+use App\Repositories\EmployeeRepository;
 
 class EmployeesWithoutRecentSalaryChangeAction
 {
-    public function __construct(private EmployeeService $service) {}
-
+    public function __construct(private EmployeeRepository $repository) {}
 
     public function handle(int $month)
     {
-        return $this->service->getEmployeesWithoutRecentSalaryChange($month);
+        return $this->repository->withoutRecentSalaryChange($month);
     }
 }
