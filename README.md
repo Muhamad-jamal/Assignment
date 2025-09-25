@@ -2,6 +2,16 @@
 
 ## Overview
 
+## Project Structure Overview
+
+- **Controllers**: Handle HTTP requests and responses for API endpoints.
+- **Actions**: Encapsulate business logic for each operation (CRUD, search, etc.), called by controllers.
+- **Repositories**: Directly interact with Eloquent models for data access and queries.
+- **Services**: (Where used) Provide reusable business logic or orchestration, used by actions or observers.
+- **Observers**: Listen for model events (created, updated, deleted) and trigger logging, notifications, or history tracking.
+- **Notifications**: Send email and broadcast notifications for events like salary changes and new employee creation.
+- **Commands**: Custom Artisan CLI commands for data export, log cleanup, and bulk operations.
+- **Traits**: Shared reusable code for controllers and actions, e.g., `ApiResponse.php` for standardized API responses.
 This project is a Laravel-based backend API for HR management. It implements employee and position management, authentication, notifications, hierarchical queries, logging, data import/export, rate limiting, and more, strictly following the assignment requirements.
 
 ---
