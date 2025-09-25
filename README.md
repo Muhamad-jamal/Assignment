@@ -136,11 +136,11 @@ A Postman collection is provided in the project root as `Assignment.postman_coll
 
 ### Utility & Artisan Commands
 
-- `php artisan logs:prune` – Delete old logs (>1 month)
-- `php artisan logs:clear-files` – Remove log files
-- `php artisan employees:insert {count}` – Add fake employees
-- `php artisan db:export` – Export DB as SQL
-- `php artisan employees:export-json` – Export employees to JSON
+- `php artisan employee-logs:cleanup` – Delete employee logs older than one month from the logs table
+- `php artisan logs:remove-all` – Remove all log files from storage/logs directory
+- `php artisan employees:insert {count}` – Insert a given number of employees with a progress bar
+- `php artisan db:export` – Export the entire database to a SQL file in storage/backups
+- `php artisan employees:export-json` – Export all employee data to a JSON file in storage/backups
 
 ### Other Features
 
